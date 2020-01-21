@@ -11,3 +11,9 @@ vue-router 原理剖析及手写
 > 监控 url 变化：监听 hashchange 或 popstate 事件
 >
 > 响应最新 url：创建一个响应式的属性 current，当它改变时获取对应组件并显示
+
+#### 嵌套路由的实现
+
+> Router-view 深度标记
+>
+> 路由匹配时获取代表深度层级的 matched 数组
