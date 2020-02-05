@@ -4,8 +4,16 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <!-- 路由出口 -->
-    <router-view />
+    <!-- 路由组件缓存 -->
+    <!-- include 需要缓存的组件 -->
+    <!-- exclude 不用缓存的组件 -->
+    <!-- max 组件最大缓存数，超出部分会销毁一个再进入一个 -->
+    <keep-alive include="home,about"
+                exclude="detail"
+                max="7">
+      <!-- 路由出口 -->
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
