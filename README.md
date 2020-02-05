@@ -260,75 +260,75 @@
 
     - 全局路由：
 
-    ```js
-    // src/router/index.js
-    {
-        path: "/about",
-        name: "about",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/About.vue"),
-        meta: {
-          auth: true// 设置该路由需要授权
-        }
-    }
-
-    // 全局守卫
-    router.beforeEach((to, from, next) => {
-      /**
-       * 判断路由是否需要守卫
-       * meta数据
-       * to 去哪
-       * from 来自于哪
-       * next 放行函数
-       */
-      if (to.meta.auth) {
-        // 是否登录
-        if (window.isLogin) {
-          // 如果登录则允许访问
-          next();
-        } else {
-          // 如果未登录，跳转login页面，设置redirect，当登录成功后，重定向到to页面
-          next("/login?redirect=" + to.fullPath);
-        }
-      } else {
-        // 如果不需要守卫，直接放行
-        next();
+      ```js
+      // src/router/index.js
+      {
+          path: "/about",
+          name: "about",
+          component: () =>
+            import(/* webpackChunkName: "about" */ "../views/About.vue"),
+          meta: {
+            auth: true// 设置该路由需要授权
+          }
       }
-    });
-    ```
 
-    ```html+js
-    // src/views/Login.vue
-    <template>
-      <div>
-        <h1>注册页面</h1>
-        <button @click="login" v-if="!isLogin">登录</button>
-        <button @click="logout" v-else>注销</button>
-      </div>
-    </template>
-
-    <script>
-      export default {
-        name: "login",
-        methods: {
-          login() {
-            window.isLogin = true;
-            // 通过query查询参数获取重定向的地址，并跳转
-            this.$router.push(this.$route.query.redirect);
-          },
-          logout() {
-            window.isLogin = false;
-            this.$router.push("/");
+      // 全局守卫
+      router.beforeEach((to, from, next) => {
+        /**
+         * 判断路由是否需要守卫
+         * meta数据
+         * to 去哪
+         * from 来自于哪
+         * next 放行函数
+         */
+        if (to.meta.auth) {
+          // 是否登录
+          if (window.isLogin) {
+            // 如果登录则允许访问
+            next();
+          } else {
+            // 如果未登录，跳转login页面，设置redirect，当登录成功后，重定向到to页面
+            next("/login?redirect=" + to.fullPath);
           }
-        },
-        computed: {
-          isLogin() {
-            return window.isLogin;
-          }
+        } else {
+          // 如果不需要守卫，直接放行
+          next();
         }
-      };
-    </script>
-    ```
+      });
+      ```
+
+      ```html+js
+      // src/views/Login.vue
+      <template>
+        <div>
+          <h1>注册页面</h1>
+          <button @click="login" v-if="!isLogin">登录</button>
+          <button @click="logout" v-else>注销</button>
+        </div>
+      </template>
+
+      <script>
+        export default {
+          name: "login",
+          methods: {
+            login() {
+              window.isLogin = true;
+              // 通过query查询参数获取重定向的地址，并跳转
+              this.$router.push(this.$route.query.redirect);
+            },
+            logout() {
+              window.isLogin = false;
+              this.$router.push("/");
+            }
+          },
+          computed: {
+            isLogin() {
+              return window.isLogin;
+            }
+          }
+        };
+      </script>
+      ```
 
     - 路由独享的守卫：
 
